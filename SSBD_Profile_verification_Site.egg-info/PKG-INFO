@@ -1,0 +1,11 @@
+Metadata-Version: 2.4
+Name: SSBD-Profile-verification-Site
+Version: 0.0.1
+Summary: A Streamlit web application for users in the SSBD Course
+Author: Tahasin Islam
+Author-email: tahasinahoni2@gmail.com
+Requires-Dist: streamlit
+Dynamic: author
+Dynamic: author-email
+Dynamic: requires-dist
+Dynamic: summary

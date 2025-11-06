@@ -1,0 +1,7 @@
+README.md
+setup.py
+SSBD_Profile_verification_Site.egg-info/PKG-INFO
+SSBD_Profile_verification_Site.egg-info/SOURCES.txt
+SSBD_Profile_verification_Site.egg-info/dependency_links.txt
+SSBD_Profile_verification_Site.egg-info/requires.txt
+SSBD_Profile_verification_Site.egg-info/top_level.txt
