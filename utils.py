@@ -1,3 +1,7 @@
+"""
+Utils function for ssbd web portal. It includes redis memory setup.
+"""
+
 import redis
 from config import config
 from logger import logger
