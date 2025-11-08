@@ -372,17 +372,30 @@ def main(key: str):
                         participant_display_id = participant_id
 
                         # Attempt to load an avatar/profile image via helper if available; otherwise fallback to logo
-                        try:
-                            # Assuming helper might have a method to get participant image by index/key
-                            # Replace with actual implementation if exists in your helper
-                            avatar_img_np = getattr(helper, 'load_participant_image', lambda x: helper.load_logo())(index_number)
-                        except Exception:
-                            avatar_img_np = helper.load_logo()
+                        avatar_b64 = None
+                        profile_picture_map = info.get('Profile_picture')
+                        if profile_picture_map:
+                            profile_picture_url = profile_picture_map.get(index_number)
+                            if profile_picture_url and isinstance(profile_picture_url, str):
+                                try:
+                                    # Extract ID from 'https://drive.google.com/open?id=...'
+                                    image_id = profile_picture_url.split('id=')[-1]
+                                    image_bytes = helper.drivelink_to_image(image_id)
+                                    avatar_pil = Image.open(io.BytesIO(image_bytes))
+                                    avatar_buffer = io.BytesIO()
+                                    avatar_pil.save(avatar_buffer, format="PNG")
+                                    avatar_b64 = base64.b64encode(avatar_buffer.getvalue()).decode()
+                                except Exception as e:
+                                    logger.error(f"Failed to load profile picture from google drive: {e}")
+                                    avatar_b64 = None
 
-                        avatar_pil = Image.fromarray(avatar_img_np)
-                        avatar_buffer = io.BytesIO()
-                        avatar_pil.save(avatar_buffer, format="PNG")
-                        avatar_b64 = base64.b64encode(avatar_buffer.getvalue()).decode()
+                        if avatar_b64 is None:
+                            # Fallback to logo
+                            avatar_img_np = helper.load_logo()
+                            avatar_pil = Image.fromarray(avatar_img_np)
+                            avatar_buffer = io.BytesIO()
+                            avatar_pil.save(avatar_buffer, format="PNG")
+                            avatar_b64 = base64.b64encode(avatar_buffer.getvalue()).decode()
 
                         # Card layout using columns and custom HTML
                         st.markdown(

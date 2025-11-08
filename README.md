@@ -4,6 +4,7 @@
 [![Python Version](https://img.shields.io/badge/python-3.9-blue.svg)](https://www.python.org/downloads/release/python-390/)
 [![Streamlit](https://img.shields.io/badge/Streamlit-1.29.0-red.svg)](https://www.streamlit.io/)
 
+
 A dedicated, secure web application designed to streamline administrative tasks for participants of the Student Skill/Success Battle Development initiative. This portal acts as your central hub for instantly verifying official status and accessing essential documentation.
 
 ## ✨ Core Features
@@ -12,12 +13,16 @@ This application consolidates two critical services into a single, seamless plat
 
 ### 🔐 Secure Profile Verification Portal
 
+
 -   **Description:** This function allows any registered participant to instantly confirm their enrollment status and view their associated profile details within the SSBD program.
+
 -   **Benefit:** Provides immediate assurance that your registration is active and the data held is accurate, eliminating the need for manual inquiries or waiting for email confirmations. It requires only your unique SSBD Participant ID for instant validation.
 
 ### 📜 Official Certificate Download Portal
 
+
 -   **Description:** This portal enables participants who have successfully completed the required program milestones to generate and securely download their official digital certificates.
+
 -   **Benefit:** Offers 24/7, on-demand access to your critical documentation. Simply enter your SSBD Participant ID to securely retrieve your personalized, official certificate in a downloadable format (e.g., PDF).
 
 ## 🚀 Getting Started

@@ -84,5 +84,16 @@ class HelperClass:
             pdf_bytes = file.read()
 
         return pdf_bytes
+    
+    def drivelink_to_image(self, image_id: str) -> bytes:
+        """Function to get drivelink to image"""
+        import requests
+
+        url = f"https://drive.google.com/uc?export=download&id={image_id}"
+
+        response = requests.get(url)
+
+        return response.content
+        
 
 helper = HelperClass()
