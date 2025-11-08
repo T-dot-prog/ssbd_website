@@ -26,3 +26,20 @@ p.alignment = PP_ALIGN.CENTER
 
 # Save as a new file
 prs.save("updated_certificate.pptx")
+
+
+"""
+Test image via request module
+"""
+
+import requests
+
+IMAGE_ID = "1l9JDaLmuk5unOqlApHf-_xmWtqd47bTR"
+url = f"https://drive.google.com/uc?export=download&id={IMAGE_ID}"
+
+response = requests.get(url)
+
+with open("image.jpg", "wb") as f:
+    f.write(response.content)
+
+print("Image downloaded successfully!")
