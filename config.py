@@ -10,7 +10,7 @@ warnings.filterwarnings("ignore")
 class Config(BaseSettings):
     "Application Settings and Configuration"
 
-    LOGO_PATH: str = "F:/ssbd_logo.jpg"
+    LOGO_PATH: str = "data/ssbd_logo.jpg"
     XML_PATH: str = "data/Profile data.xlsx"
 
     COURSE_TITLE: str = "ANSYS Fluent Course (CFD & Heat Transfer)"
