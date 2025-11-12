@@ -25,7 +25,7 @@ class Config(BaseSettings):
     KEY_STR: str = "ID"
     OTHER_INFO: list = ["Name ", "Email Address"]
 
-    TEMPLATE_PPTX: str = "F:/Certificate.pptx"
+    TEMPLATE_PPTX: str = "pptx_src/Certificate.pptx"
 
 
 config = Config()
