@@ -8,7 +8,6 @@ import json
 from pptx import Presentation
 from pptx.util import Inches, Pt
 from pptx.enum.text import PP_ALIGN
-import os
 
 from config import config
 

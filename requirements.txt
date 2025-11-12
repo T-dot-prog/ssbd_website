@@ -2,3 +2,4 @@ streamlit
 pydantic_settings
 redis
 openpyxl
+pptx
