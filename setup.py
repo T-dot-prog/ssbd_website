@@ -7,7 +7,7 @@ setup(
     author="Tahasin Islam",
     author_email="tahasinahoni2@gmail.com",
     packages=find_packages(),
-    install_requires=["streamlit", "redis", "openpyxl", "pydantic_settings"],
+    install_requires=["streamlit", "redis", "openpyxl", "pydantic_settings", "python-pptx"],
     entry_points={"console_scripts": ["ssbd_website=ssbd_website.__main__:main"]},
     include_package_data=True,
 )
