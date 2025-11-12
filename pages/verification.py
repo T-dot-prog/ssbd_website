@@ -11,10 +11,9 @@ warnings.filterwarnings("ignore")
 from logger import logger
 from config import config
 from helper import helper
-from utils import redis_db
 
 
-def main(key: str):
+def main():
     # Glossy Theme Custom CSS
     st.markdown("""
     <style>
@@ -312,21 +311,14 @@ def main(key: str):
             # Load data in json format
             data = helper.convert_into_dict()
 
-            # Store into DB
-            status = redis_db.save_info(key="participant_info", info=data)
-
-            if not status:
-                logger.error(f'Refuse connection from Source Site')
-                st.error("A Exception occured while connecting with redis server")
+            if not (data and isinstance(data, dict)):
+                logger.error(f'Data is not in valid format: {data}')
+                st.error("Problem loading data. Please try again later")
             else:
-                logger.info("Succesfully saved the information")
-                st.success("Connection Built up sucessfully")
+                logger.info("Data is formatted correctly")
+                st.success("Data loaded Sucessfully")
 
-            info: dict = redis_db.load_info(key=key)
-
-            logger.info(f'Info section: {info}')
-
-            id_columns: dict = info[config.KEY_STR]
+            id_columns: dict = data.get(config.KEY_STR)
             other_columns = config.OTHER_INFO
 
             index_number = None
@@ -342,8 +334,8 @@ def main(key: str):
             else:
                 
                 try:
-                    name_map = info[other_columns[0]]
-                    email_map = info[other_columns[1]]
+                    name_map = data[other_columns[0]]
+                    email_map = data[other_columns[1]]
                 except Exception as e:
                     logger.exception(f"Failed to access name/email from info using OTHER_INFO keys {e}")
                     st.error("Internal error while accessing profile details")
@@ -373,7 +365,7 @@ def main(key: str):
 
                         # Attempt to load an avatar/profile image via helper if available; otherwise fallback to logo
                         avatar_b64 = None
-                        profile_picture_map = info.get('Profile_picture')
+                        profile_picture_map = data.get('Profile_picture')
                         if profile_picture_map:
                             profile_picture_url = profile_picture_map.get(index_number)
                             if profile_picture_url and isinstance(profile_picture_url, str):
@@ -474,4 +466,4 @@ def main(key: str):
                         )
 
 if __name__ == "__main__":
-    main(key="participant_info")
+    main()

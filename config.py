@@ -15,8 +15,6 @@ class Config(BaseSettings):
 
     COURSE_TITLE: str = "ANSYS Fluent Course (CFD & Heat Transfer)"
     COURSE_DURATION: str = "17th October,2025 to 13th November,2025; 12 sessions"
-
-    REDIS_URL: str = os.getenv("REDIS_URL")
     
     KEY_STR: str = "ID"
     OTHER_INFO: list = ["Name ", "Email Address"]

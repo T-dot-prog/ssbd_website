@@ -11,9 +11,10 @@ warnings.filterwarnings("ignore")
 
 from logger import logger
 from helper import helper
-from utils import redis_db
+from config import config
 
-def download_main(key: str):
+
+def download_main():
         # Glossy Theme Custom CSS
     st.markdown("""
     <style>
@@ -311,28 +312,19 @@ def download_main(key: str):
              # Load data in json format
             data = helper.convert_into_dict()
 
-            # Store into DB
-            status = redis_db.save_info(key="participant_info", info=data)
-
-            if not status:
-                logger.error(f'Refuse connection from Source Site')
-                st.error("A Exception occured while connecting with redis server")
+            if not (data and isinstance(data, dict)):
+                logger.error(f'Data is not a dict: {data}')
+                st.error('Internal data format error. Please try again later.')
+                return 
             else:
-                logger.info("Succesfully saved the information")
-                st.success("Connection Built up sucessfully")
-            
-            # Load the same key we used to save (e.g., "participant_info" passed into this function)
-            info: dict = redis_db.load_info(key= key)
+                logger.info("Data loaded successfully")
+                st.success("Data loaded successfully")
 
-            # Validate info is a dict before subscripting
-            if not isinstance(info, dict):
-                logger.error("Loaded participant info is not a dict or is None")
-                st.error("No participant data available. Please try again later.")
-                return
+           
 
             # Data structure is column-oriented: { 'ID': {row:'id'}, 'Name ': {row:'name'}, ... }
-            ids: dict = info.get('ID', {})
-            names: dict = info.get('Name ', {})  # note the trailing space in column name
+            ids: dict = data.get( config.KEY_STR, {})
+            names: dict = data.get( config.OTHER_INFO[0], {})
 
             if not isinstance(ids, dict) or not ids:
                 logger.error('ID column missing or invalid in info')
@@ -398,4 +390,4 @@ def download_main(key: str):
 
 
 if __name__ == '__main__':
-    download_main(key= "participant_info")
+    download_main()
