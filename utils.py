@@ -11,20 +11,13 @@ from typing_extensions import Any, Optional, Dict
 
 class RedisMemory:
     def __init__(self,
-        host: str = config.REDIS_HOST,
-        port: int = config.REDIS_PORT,
-        db: int = config.REDIS_DB,
-        password: str = config.REDIS_PASSWORD ):
+        url: str = config.REDIS_URL
+    ):
         
         try:
-            self.redis = redis.Redis(
-                host=host,
-                port=port,
-                db=db,
-                password=password,
-                decode_responses=True
-            )
-            logger.info(f"Connected to Redis at {host}:{port}")
+            self.redis = redis.Redis.from_url(url= url, decode_responses= True)
+            logger.info('Connected to Redis')
+            
         except redis.ConnectionError as e:
             logger.error(f"Failed to connect to Redis: {str(e)}")
             raise

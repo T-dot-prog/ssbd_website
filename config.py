@@ -1,4 +1,4 @@
-from argparse import OPTIONAL
+import os
 from pydantic_settings import BaseSettings
 
 from typing_extensions import Optional
@@ -16,12 +16,8 @@ class Config(BaseSettings):
     COURSE_TITLE: str = "ANSYS Fluent Course (CFD & Heat Transfer)"
     COURSE_DURATION: str = "17th October,2025 to 13th November,2025; 12 sessions"
 
-    REDIS_HOST: str = "localhost"
-    REDIS_PORT: int = 6379
-    REDIS_DB: int = 0
-    REDIS_PASSWORD: Optional[str] = None
-    REDIS_TTL: int = 3600  # 1 hour default TTL
-
+    REDIS_URL: str = os.getenv("REDIS_URL")
+    
     KEY_STR: str = "ID"
     OTHER_INFO: list = ["Name ", "Email Address"]
 
