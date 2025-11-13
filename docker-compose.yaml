@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  web:
+  web:                     # <-- service name required
     build:
       context: .
       dockerfile: Dockerfile
@@ -17,3 +17,7 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+
+networks:
+  ssbd-network:
+    driver: bridge

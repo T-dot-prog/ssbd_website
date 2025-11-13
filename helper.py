@@ -67,7 +67,7 @@ class HelperClass:
 
         PPTX_FILE = "sample.pptx"
         PDF_FILE = "sample.pdf"
-        SOFFICE_PATH = r"C:\Program Files\LibreOffice\program\soffice.exe"
+        SOFFICE_PATH = r"soffice"
 
         #Save to a created file 
         prs.save(PPTX_FILE)

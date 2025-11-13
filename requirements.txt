@@ -3,3 +3,4 @@ pydantic_settings
 redis
 openpyxl
 python-pptx
+streamlit[pdf]
