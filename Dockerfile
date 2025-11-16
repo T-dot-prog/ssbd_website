@@ -17,7 +17,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy custom fonts (if any)
 COPY font /usr/share/fonts/truetype/custom/
-RUN fc-cache -fv
 
 # Copy the rest of the application
 COPY . .
