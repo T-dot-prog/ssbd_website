@@ -1,6 +1,8 @@
-streamlit
-pydantic_settings
+streamlit>=1.38
+streamlit-pdf
 redis
 openpyxl
+pydantic_settings
 python-pptx
-streamlit[pdf]
+pptxtopdf
+asposeslidescloud

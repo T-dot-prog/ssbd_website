@@ -360,7 +360,7 @@ def download_main():
                 logger.error('Name not found for the matched row index')
                 st.error('Could not determine participant name from records.')
 
-            pdfin_bytes = helper.name_to_pptx_to_pdf(name= name)
+            pdfin_bytes = helper.name_to_pdf(_id = id_val)
 
 
             # 5. Preview section

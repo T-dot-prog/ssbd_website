@@ -21,5 +21,4 @@ class Config(BaseSettings):
 
     TEMPLATE_PPTX: str = "pptx_src/Certificate.pptx"
 
-
 config = Config()

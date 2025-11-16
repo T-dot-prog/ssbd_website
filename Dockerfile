@@ -1,29 +1,29 @@
 # Use an official Python runtime as a parent image
 FROM python:3.9-slim
 
-# Set environment variables
-ENV PYTHONUNBUFFERED=1 \
-    PYTHONDONTWRITEBYTECODE=1
+# Environment setup
+ENV DEBIAN_FRONTEND=noninteractive
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONDONTWRITEBYTECODE=1
 
-# Set the working directory in the container
+# Set working directory
 WORKDIR /app
 
-# Copy the requirements file into the container
+# Copy dependency file and install
 COPY requirements.txt .
 
-# Install dependencies
-RUN pip install --no-cache-dir -r requirements.txt
-# Install LibreOffice in linux distributions
-RUN apt-get update && apt-get install -y libreoffice 
-RUN apt-get update && apt-get install -y fonts-dejavu fontconfig
+# Install Python dependencies and system packages together
+RUN pip install --no-cache-dir -r requirements.txt 
+
+# Copy custom fonts (if any)
 COPY font /usr/share/fonts/truetype/custom/
 RUN fc-cache -fv
 
-# Copy the rest of the application code
+# Copy the rest of the application
 COPY . .
 
-# Expose the port that Streamlit runs on (default is 8501)
+# Expose Streamlit port
 EXPOSE 8501
 
-# Command to run the Streamlit application
+# Run the Streamlit app
 CMD ["streamlit", "run", "main.py", "--server.address=0.0.0.0"]
