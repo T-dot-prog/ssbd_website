@@ -362,30 +362,22 @@ def download_main():
 
             pdfin_bytes = helper.name_to_pdf(_id = id_val)
 
+            # Show preview first
+            st.subheader("Certificate Preview")
+            st.pdf(pdfin_bytes)
 
-            # 5. Preview section
-            if hasattr(st, "pdf"):
-                # For Streamlit 1.38+
-                st.pdf(pdfin_bytes)
-            else:
-                # Fallback for older versions
-                st.markdown(
-                    f'<iframe src="data:application/pdf;base64,{pdfin_bytes.hex()}" width="700" height="500"></iframe>',
-                    unsafe_allow_html=True
-                )
+            st.markdown("<br>", unsafe_allow_html=True)
 
+            # Then download button (without triggering another preview)
             col1, col2, col3 = st.columns([1,2,1])
-
             with col2:
-                st.markdown("<div style='text-align:center;'>", unsafe_allow_html=True)
                 st.download_button(
-                    "Download Certificate",
+                    "📥 Download Certificate",
                     data=pdfin_bytes,
-                    file_name="sample.pdf",
+                    file_name=f"certificate_{participant_id}.pdf",
                     mime="application/pdf",
                     use_container_width=True
                 )
-                st.markdown("</div>", unsafe_allow_html=True)
 
 
 
