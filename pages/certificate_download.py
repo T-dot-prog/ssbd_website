@@ -18,8 +18,6 @@ def download_main():
         # Glossy Theme Custom CSS
     st.markdown("""
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600&display=swap');
-        
         * {
             margin: 0;
             padding: 0;
