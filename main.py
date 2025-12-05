@@ -19,12 +19,9 @@ def render_portal_info_card():
     # --- Inject global CSS (base design + toggle positioning)
     st.markdown("""
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Times+New+Roman&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Times+New+Roman&display=swap');
-
         .stApp {
             background-color: #ffffff;
-            font-family: 'Bebas Neue', sans-serif;
+            font-family: 'Times New Roman', Times, serif;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
 
@@ -60,12 +57,12 @@ def render_portal_info_card():
 
         h1, h2, h3 {
             color: #000 !important;
-            font-family: 'Bebas Neue', sans-serif !important;
+            font-family: 'Times New Roman', Times, serif !important;
         }
 
         p, li {
             color: #000;
-            font-family: 'JetBrains Mono', monospace !important;
+            font-family: 'Times New Roman', Times, serif !important;
         }
     </style>
     """, unsafe_allow_html=True)
@@ -80,8 +77,8 @@ def render_portal_info_card():
     if st.session_state.theme == "dark":
         st.markdown("""
         <style>
-            .stApp { background-color: #0E1117; color: white; }
-            h1, h2, h3, p, li, strong { color: #f5f5f5 !important; }
+            .stApp { background-color: #0E1117; color: white; font-family: 'Times New Roman', Times, serif !important; }
+            h1, h2, h3, p, li, strong { color: #f5f5f5 !important; font-family: 'Times New Roman', Times, serif !important; }
             .main-card-container { background: #1E1E1E; box-shadow: 0 0 20px rgba(255,255,255,0.05); }
             .theme-toggle { background: #333; color: white; border-color: #555; }
             .theme-toggle:hover { background: #444; }
@@ -103,7 +100,7 @@ def render_portal_info_card():
     st.markdown("""
     <p class="intro-paragraph">
     Built using Streamlit, this portal provides a clean, interactive interface with all navigation 
-    managed via the left sidebar. It operates entirely based on your unique <code>Participant ID</code>.
+    managed via the left sidebar. It operates entirely based on your unique "Participants_IDs"
     </p>
     """, unsafe_allow_html=True)
 
@@ -120,10 +117,10 @@ def render_portal_info_card():
     st.markdown("<div></div>", unsafe_allow_html= True)
     
     st.markdown("## Step-by-Step Guide")
-    st.markdown("1️⃣ **Identify Your Need:** Select the appropriate service from the sidebar.")
-    st.markdown("2️⃣ **Select a Service:** Choose either *Profile Verification* or *Certificate Download.*")
-    st.markdown("3️⃣ **Authenticate:** Enter your Participant ID.")
-    st.markdown("4️⃣ **View or Download:** Get your verified data or certificate immediately.")
+    st.markdown("1. **Identify Your Need:** Select the appropriate service from the sidebar.")
+    st.markdown("2. **Select a Service:** Choose either *Profile Verification* or *Certificate Download.*")
+    st.markdown("3. **Authenticate:** Enter your Participant ID.")
+    st.markdown("4. **View or Download:** Get your verified data or certificate immediately.")
 
     st.markdown('</div>', unsafe_allow_html=True)
 

@@ -10,11 +10,14 @@ import io, base64
 warnings.filterwarnings("ignore")
 
 from logger import logger
-from helper import helper
+from helper import helper, initialize_theme, is_dark_theme, get_dark_theme_css, get_light_theme_css, render_theme_toggle
 from config import config
 
 
 def download_main():
+    # Initialize theme
+    initialize_theme()
+        
         # Glossy Theme Custom CSS
     st.markdown("""
     <style>
@@ -26,220 +29,17 @@ def download_main():
         #MainMenu {visibility: hidden;}
         footer {visibility: hidden;}
         header {visibility: hidden;}
-        
-        .main {
-            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 25%, #2d1b4e 50%, #1a1f3a 75%, #0a0e27 100%);
-            min-height: 100vh;
-            padding: 0;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .main::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 20% 50%, rgba(100, 181, 246, 0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 80%, rgba(129, 199, 132, 0.1) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: 0;
-        }
-        
-        .block-container {
-            padding-top: 0;
-            padding-bottom: 2rem;
-            max-width: 100%;
-            color: white;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .brand-title {
-            font-family: "Bebas Neue", cursive;
-            font-weight: 400;
-            font-size: 3rem;
-            color: #64b5f6;
-            letter-spacing: 1px;
-            margin: 0;
-            text-transform: uppercase;
-            text-shadow: 0 0 20px rgba(100, 181, 246, 0.3);
-        }
-        
-        .header-container {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.08) 100%);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            border-radius: 30px;
-            padding: 2.5rem 3rem;
-            box-shadow: 
-                0 8px 32px rgba(0, 0, 0, 0.3),
-                inset 0 1px 1px rgba(255, 255, 255, 0.3),
-                inset 0 -1px 1px rgba(0, 0, 0, 0.2);
-            margin: 1.5rem;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .header-container::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
-            animation: glossShine 3s infinite;
-        }
-        
-        @keyframes glossShine {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
-        }
-        
-        /* Input Card Styling */
-        .input-card {
-            background: linear-gradient(135deg, rgba(100, 181, 246, 0.15) 0%, rgba(129, 199, 132, 0.1) 100%);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 2px solid rgba(100, 181, 246, 0.3);
-            border-radius: 25px;
-            padding: 2.5rem;
-            margin: 2rem 1.5rem;
-            box-shadow: 
-                0 10px 40px rgba(100, 181, 246, 0.2),
-                inset 0 1px 2px rgba(255, 255, 255, 0.2);
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-        
-        .input-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 
-                0 15px 50px rgba(100, 181, 246, 0.3),
-                inset 0 1px 2px rgba(255, 255, 255, 0.3);
-        }
-        
-        .input-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transition: left 0.5s ease;
-        }
-        
-        .input-card:hover::before {
-            left: 100%;
-        }
-        
-        .input-label {
-            font-family: 'Inter', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #64b5f6;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-shadow: 0 2px 10px rgba(100, 181, 246, 0.3);
-        }
-        
-        .stTextInput > div > div > input {
-            background: rgba(255, 255, 255, 0.1) !important;
-            border: 2px solid rgba(100, 181, 246, 0.4) !important;
-            border-radius: 15px !important;
-            color: white !important;
-            font-size: 1.1rem !important;
-            padding: 1rem 1.5rem !important;
-            font-family: 'Inter', sans-serif !important;
-            transition: all 0.3s ease !important;
-            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.2) !important;
-        }
-        
-        .stTextInput > div > div > input:focus {
-            background: rgba(255, 255, 255, 0.15) !important;
-            border: 2px solid rgba(100, 181, 246, 0.8) !important;
-            box-shadow: 
-                inset 0 2px 10px rgba(0, 0, 0, 0.2),
-                0 0 20px rgba(100, 181, 246, 0.4) !important;
-            outline: none !important;
-        }
-        
-        .stTextInput > div > div > input::placeholder {
-            color: rgba(255, 255, 255, 0.5) !important;
-        }
-        
-        .stButton > button {
-            background: linear-gradient(135deg, #64b5f6 0%, #81c784 100%) !important;
-            color: white !important;
-            border: none !important;
-            border-radius: 15px !important;
-            padding: 1rem 3rem !important;
-            font-size: 1.1rem !important;
-            font-weight: 600 !important;
-            font-family: 'Inter', sans-serif !important;
-            text-transform: uppercase !important;
-            letter-spacing: 1px !important;
-            cursor: pointer !important;
-            transition: all 0.3s ease !important;
-            box-shadow: 
-                0 8px 25px rgba(100, 181, 246, 0.4),
-                inset 0 1px 2px rgba(255, 255, 255, 0.3) !important;
-            position: relative !important;
-            overflow: hidden !important;
-        }
-        
-        .stButton > button:hover {
-            transform: translateY(-3px) !important;
-            box-shadow: 
-                0 12px 35px rgba(100, 181, 246, 0.5),
-                inset 0 1px 2px rgba(255, 255, 255, 0.4) !important;
-        }
-        
-        .stButton > button:active {
-            transform: translateY(-1px) !important;
-        }
-        
-        .stButton > button::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-        
-        .stButton > button:hover::before {
-            width: 300px;
-            height: 300px;
-        }
-        
-        /* Icon styling */
-        .icon-container {
-            display: inline-block;
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, rgba(100, 181, 246, 0.3), rgba(129, 199, 132, 0.3));
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1rem;
-            box-shadow: 0 5px 15px rgba(100, 181, 246, 0.3);
-        }
-       
     </style>
     """, unsafe_allow_html=True)
+    
+    # Apply theme CSS
+    if is_dark_theme():
+        st.markdown(get_dark_theme_css(), unsafe_allow_html=True)
+    else:
+        st.markdown(get_light_theme_css(), unsafe_allow_html=True)
+    
+    # Render theme toggle
+    render_theme_toggle()
 
     # Load logo
     logo_img = helper.load_logo()
@@ -313,7 +113,7 @@ def download_main():
             if not (data and isinstance(data, dict)):
                 logger.error(f'Data is not a dict: {data}')
                 st.error('Internal data format error. Please try again later.')
-                return 
+                return
             else:
                 logger.info("Data loaded successfully")
                 st.success("Data loaded successfully")
