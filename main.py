@@ -11,7 +11,7 @@ def render_portal_info_card():
 
     # --- Initialize theme
     if "theme" not in st.session_state:
-        st.session_state.theme = "dark"
+        st.session_state.theme = "light"
 
     def toggle_theme():
         st.session_state.theme = "dark" if st.session_state.theme == "light" else "light"
@@ -102,7 +102,7 @@ def render_portal_info_card():
     Built using Streamlit, this portal provides a clean, interactive interface with all navigation 
     managed via the left sidebar. It operates entirely based on your unique "Participants_IDs"
     </p>
-    """, unsafe_allow_html=True)
+    """, unsafe_allow_html= True)
 
     st.markdown("<div></div>", unsafe_allow_html= True)
     st.markdown("<div></div>", unsafe_allow_html= True)

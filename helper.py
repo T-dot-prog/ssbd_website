@@ -238,7 +238,11 @@ def get_dark_theme_css():
             color: rgba(255, 255, 255, 0.5) !important;
         }
         
-        .stButton > button {
+        /* Buttons (regular and download) */
+        .stButton > button,
+        .stDownloadButton > button,
+        .stDownloadButton > a,
+        .stDownloadButton a {
             background: linear-gradient(135deg, #64b5f6 0%, #81c784 100%) !important;
             color: white !important;
             border: none !important;
@@ -256,9 +260,16 @@ def get_dark_theme_css():
                 inset 0 1px 2px rgba(255, 255, 255, 0.3) !important;
             position: relative !important;
             overflow: hidden !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            text-decoration: none !important;
         }
-        
-        .stButton > button:hover {
+
+        .stButton > button:hover,
+        .stDownloadButton > button:hover,
+        .stDownloadButton > a:hover,
+        .stDownloadButton a:hover {
             transform: translateY(-3px) !important;
             box-shadow: 
                 0 12px 35px rgba(100, 181, 246, 0.5),
@@ -425,7 +436,11 @@ def get_light_theme_css():
             color: rgba(26, 26, 26, 0.4) !important;
         }
         
-        .stButton > button {
+        /* Buttons (regular and download) */
+        .stButton > button,
+        .stDownloadButton > button,
+        .stDownloadButton > a,
+        .stDownloadButton a {
             background: linear-gradient(135deg, #2196F3 0%, #4CAF50 100%) !important;
             color: white !important;
             border: none !important;
@@ -443,9 +458,16 @@ def get_light_theme_css():
                 inset 0 1px 2px rgba(255, 255, 255, 0.3) !important;
             position: relative !important;
             overflow: hidden !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            text-decoration: none !important;
         }
-        
-        .stButton > button:hover {
+
+        .stButton > button:hover,
+        .stDownloadButton > button:hover,
+        .stDownloadButton > a:hover,
+        .stDownloadButton a:hover {
             transform: translateY(-3px) !important;
             box-shadow: 
                 0 12px 35px rgba(33, 150, 243, 0.3),
