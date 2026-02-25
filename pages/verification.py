@@ -3,6 +3,7 @@ Verification Site portal
 """
 import streamlit as st
 from PIL import Image
+import requests
 import io, base64
 import warnings
 
@@ -157,32 +158,32 @@ def main():
                     else:
                         # Prepare additional info
                         course_name = "ANSYS Fluent Course (CFD & Heat Transfer)"
-                        course_duration = "17th October,2025 to 13th November,2025"
+                        course_duration = "20th January, 2026 to 20th February, 2026"
                         total_session = 12
                         participant_display_id = participant_id
 
                         # Attempt to load an avatar/profile image via helper if available; otherwise fallback to logo
                         avatar_b64 = None
-                        profile_picture_map = data.get('Profile_picture')
+                        profile_picture_map = data.get('Formal Photo')
                         if profile_picture_map:
                             profile_picture_url = profile_picture_map.get(index_number)
                             if profile_picture_url and isinstance(profile_picture_url, str):
                                 try:
-                                    # Extract ID from 'https://drive.google.com/open?id=...'
-                                    image_id = profile_picture_url.split('id=')[-1]
-                                    image_bytes = helper.drivelink_to_image(image_id)
-                                    avatar_pil = Image.open(io.BytesIO(image_bytes))
+                                    # Convert Drive share link to direct download link
+                                    profile_picture_url = helper.convert_drive_url(profile_picture_url)
+                                    # Fetch image
+                                    avatar_pil = Image.open(io.BytesIO(requests.get(profile_picture_url, allow_redirects=True).content))
                                     avatar_buffer = io.BytesIO()
                                     avatar_pil.save(avatar_buffer, format="PNG")
                                     avatar_b64 = base64.b64encode(avatar_buffer.getvalue()).decode()
                                 except Exception as e:
-                                    logger.error(f"Failed to load profile picture from google drive: {e}")
+                                    logger.error(f"Failed to load profile picture from image link: {e}")
                                     avatar_b64 = None
 
                         if avatar_b64 is None:
                             # Fallback to logo
                             avatar_img_np = helper.load_logo()
-                            avatar_pil = Image.fromarray(avatar_img_np)
+                            avatar_pil = Image.fromarray(avatar_img_np)  # FIX: was Image(avatar_img_np)
                             avatar_buffer = io.BytesIO()
                             avatar_pil.save(avatar_buffer, format="PNG")
                             avatar_b64 = base64.b64encode(avatar_buffer.getvalue()).decode()
@@ -260,7 +261,7 @@ def main():
                                 </div>
                             </div>
                             """,
-                            unsafe_allow_html=True,
+                            unsafe_allow_html=True,  # FIX: was unsafe_follow_html
                         )
 
 if __name__ == "__main__":

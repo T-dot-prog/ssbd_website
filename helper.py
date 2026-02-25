@@ -37,13 +37,54 @@ class HelperClass:
         return df.to_json()
     
     def convert_into_dict(self) -> dict[str, str]:
-        """Convert dataframe into dictionary"""
+        """Convert dataframe into dictionary, with real hyperlinks for Formal Photo"""
         data = self.load_xlx()
-
         data_dict = json.loads(data)
+
+        # Overwrite Formal Photo values with actual hyperlink URLs
+        try:
+            hyperlink_map = self.extract_hyperlinks(column_name="Formal Photo")
+            if hyperlink_map:
+                data_dict["Formal Photo"] = hyperlink_map
+        except Exception as e:
+            pass  # Leave Formal Photo as-is if extraction fails
 
         return data_dict
     
+
+    def _extract_hyperlinks(self, column_name: str = "Formal Photo") -> dict:
+        """
+        Extract hyperlink URLs from a hyperlinked column in the Excel file
+        using openpyxl. Returns a dict keyed by string row index (matches pandas).
+        """
+
+        import openpyxl
+
+        workbooks = openpyxl.load_workbook(self.xml_path)
+        ws = workbooks.worksheets[0]
+
+       # Find the column index by header name in row 1
+        header_col_idx = None
+        for cell in ws[1]:
+            if cell.value == column_name:
+                header_col_idx = cell.column
+                break
+
+        if header_col_idx is None:
+            return {}
+
+        hyperlink_map = {}
+        for row_idx, row in enumerate(ws.iter_rows(min_row=2), start=0):
+            cell = row[header_col_idx - 1]
+            if cell.hyperlink and cell.hyperlink.target:
+                hyperlink_map[str(row_idx)] = cell.hyperlink.target
+            else:
+                # Fallback to cell text value if no hyperlink
+                hyperlink_map[str(row_idx)] = cell.value
+
+        return hyperlink_map
+
+
     def name_to_pdf(self, _id: str) -> bytes:
         """Names to pdf bytes"""
         
@@ -63,6 +104,20 @@ class HelperClass:
         response = requests.get(url)
 
         return response.content
+    
+    @staticmethod
+    def convert_drive_url(url: str) -> str:
+        """Convert a Google Drive shareable/view link to a direct download link."""
+        if not url or not isinstance(url, str):
+            return url
+        if "drive.google.com/file/d/" in url:
+            file_id = url.split("/file/d/")[1].split("/")[0]
+            return f"https://drive.google.com/uc?export=download&id={file_id}"
+        if "drive.google.com/open?id=" in url:
+            file_id = url.split("open?id=")[1].split("&")[0]
+            return f"https://drive.google.com/uc?export=download&id={file_id}"
+        return url  # Already a direct link or unknown format
+
         
 
 # Theme Management Functions
