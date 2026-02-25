@@ -5,6 +5,7 @@ import numpy as np
 from PIL import Image
 import pandas as pd
 import json
+import openpyxl
 from config import config
 import streamlit as st
 
@@ -24,46 +25,24 @@ class HelperClass:
 
     def load_logo(self) -> list:
         """Load Logo from Source link"""
-        img = Image.open(fp= self.logo_path)
-
+        img = Image.open(fp=self.logo_path)
         img_to_array = np.array(img)
-
         return img_to_array
     
     def load_xlx(self) -> pd.DataFrame:
         """Load Xlxs from Source Link"""
         df = pd.read_excel(self.xml_path)
-
         return df.to_json()
     
-    def convert_into_dict(self) -> dict[str, str]:
-        """Convert dataframe into dictionary, with real hyperlinks for Formal Photo"""
-        data = self.load_xlx()
-        data_dict = json.loads(data)
-
-        # Overwrite Formal Photo values with actual hyperlink URLs
-        try:
-            hyperlink_map = self.extract_hyperlinks(column_name="Formal Photo")
-            if hyperlink_map:
-                data_dict["Formal Photo"] = hyperlink_map
-        except Exception as e:
-            pass  # Leave Formal Photo as-is if extraction fails
-
-        return data_dict
-    
-
-    def _extract_hyperlinks(self, column_name: str = "Formal Photo") -> dict:
+    def extract_hyperlinks(self, column_name: str = "Formal Photo") -> dict:
         """
         Extract hyperlink URLs from a hyperlinked column in the Excel file
         using openpyxl. Returns a dict keyed by string row index (matches pandas).
         """
+        wb = openpyxl.load_workbook(self.xml_path)
+        ws = wb.worksheets[0]
 
-        import openpyxl
-
-        workbooks = openpyxl.load_workbook(self.xml_path)
-        ws = workbooks.worksheets[0]
-
-       # Find the column index by header name in row 1
+        # Find the column index by header name in row 1
         header_col_idx = None
         for cell in ws[1]:
             if cell.value == column_name:
@@ -84,27 +63,34 @@ class HelperClass:
 
         return hyperlink_map
 
+    def convert_into_dict(self) -> dict[str, str]:
+        """Convert dataframe into dictionary, with real hyperlinks for Formal Photo"""
+        data = self.load_xlx()
+        data_dict = json.loads(data)
 
+        # Overwrite Formal Photo values with actual hyperlink URLs
+        try:
+            hyperlink_map = self.extract_hyperlinks(column_name="Formal Photo")
+            if hyperlink_map:
+                data_dict["Formal Photo"] = hyperlink_map
+        except Exception as e:
+            pass  # Leave Formal Photo as-is if extraction fails
+
+        return data_dict
+    
     def name_to_pdf(self, _id: str) -> bytes:
         """Names to pdf bytes"""
-        
         with open(f"pdf/{_id}.pdf", "rb") as f:
             data = f.read()
-
         return data
-    
 
-    
     def drivelink_to_image(self, image_id: str) -> bytes:
         """Function to get drivelink to image"""
         import requests
-
         url = f"https://drive.google.com/uc?export=download&id={image_id}"
-
         response = requests.get(url)
-
         return response.content
-    
+
     @staticmethod
     def convert_drive_url(url: str) -> str:
         """Convert a Google Drive shareable/view link to a direct download link."""
@@ -118,7 +104,6 @@ class HelperClass:
             return f"https://drive.google.com/uc?export=download&id={file_id}"
         return url  # Already a direct link or unknown format
 
-        
 
 # Theme Management Functions
 def initialize_theme():

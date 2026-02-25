@@ -170,7 +170,7 @@ def main():
                             if profile_picture_url and isinstance(profile_picture_url, str):
                                 try:
                                     # Convert Drive share link to direct download link
-                                    profile_picture_url = helper.convert_drive_url(profile_picture_url)
+                                    profile_picture_url = helper.convert_drive_url(url= profile_picture_url)
                                     # Fetch image
                                     avatar_pil = Image.open(io.BytesIO(requests.get(profile_picture_url, allow_redirects=True).content))
                                     avatar_buffer = io.BytesIO()
