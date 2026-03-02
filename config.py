@@ -11,7 +11,7 @@ class Config(BaseSettings):
     "Application Settings and Configuration"
 
     LOGO_PATH: str = "data/ssbd_logo.jpg"
-    XML_PATH: str = "data/Profile data.xlsx"
+    XML_PATH: str = "data/Profile data (1).xlsx"
 
     COURSE_TITLE: str = "ANSYS Fluent Course (CFD & Heat Transfer)"
     COURSE_DURATION: str = "17th October,2025 to 13th November,2025; 12 sessions"
